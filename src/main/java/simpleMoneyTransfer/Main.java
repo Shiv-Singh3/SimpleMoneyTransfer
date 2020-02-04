@@ -4,6 +4,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Slf4jLog;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 
 public class Main {
@@ -16,6 +18,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         try {
+            Log.setLog(new Slf4jLog());
             new Main().run();
         } catch (Throwable t) {
             t.printStackTrace();
@@ -23,8 +26,6 @@ public class Main {
     }
 
     public void run() throws Exception {
-
-        System.getProperty("java.classpath");
 
         final int port = 8080;
         final Server server = new Server(port);
@@ -36,6 +37,10 @@ public class Main {
 
         final ServletHolder defaultServlet = new ServletHolder(new DefaultServlet());
         context.addServlet(defaultServlet, CONTEXT_ROOT);
+
+        String resourceBasePath = Main.class.getResource("/swagger-ui").toExternalForm();
+        context.setResourceBase(resourceBasePath);
+        context.setWelcomeFiles(new String[] { "index.html" });
 
         server.start();
         server.join();
