@@ -1,13 +1,18 @@
 package simpleMoneyTransfer;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import java.util.HashSet;
+import java.util.Set;
+import javax.ws.rs.core.Application;
+
+public class App extends Application {
+
+    public App() {
+    }
+
+    @Override
+    public Set<Object> getSingletons() {
+        HashSet<Object> set = new HashSet<>();
+        set.add(new MessageResource());
+        return set;
     }
 }
