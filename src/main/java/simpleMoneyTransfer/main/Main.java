@@ -1,4 +1,4 @@
-package simpleMoneyTransfer;
+package simpleMoneyTransfer.main;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
@@ -11,19 +11,19 @@ import org.eclipse.jetty.util.log.Slf4jLog;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
-import simpleMoneyTransfer.guice.EventListenerScanner;
-import simpleMoneyTransfer.guice.HandlerScanner;
-import simpleMoneyTransfer.jetty.JettyModule;
-import simpleMoneyTransfer.resource.ResourceModule;
-import simpleMoneyTransfer.restEasy.RestEasyModule;
-import simpleMoneyTransfer.swagger.SwaggerModule;
-
+import simpleMoneyTransfer.constants.ConfigConstants;
+import simpleMoneyTransfer.main.guice.EventListenerScanner;
+import simpleMoneyTransfer.main.guice.HandlerScanner;
+import simpleMoneyTransfer.main.jetty.JettyModule;
+import simpleMoneyTransfer.main.resource.ResourceModule;
+import simpleMoneyTransfer.main.restEasy.RestEasyModule;
+import simpleMoneyTransfer.main.swagger.SwaggerModule;
 import javax.inject.Inject;
 
 public class Main {
 
-    static final String APPLICATION_PATH = "/api";
-    static final String CONTEXT_ROOT = "/";
+    private static final String APPLICATION_PATH = ConfigConstants.APPLICATION_PATH;
+    private static final String CONTEXT_ROOT = ConfigConstants.CONTEXT_ROOT;
 
     private final GuiceFilter filter;
     private final EventListenerScanner eventListenerScanner;
@@ -50,15 +50,15 @@ public class Main {
         }
     }
 
-    public void run() throws Exception {
+    private void run() throws Exception {
 
-        final int port = 8080;
+        final int port = ConfigConstants.PORT;
         final Server server = new Server(port);
 
         final ServletContextHandler context = new ServletContextHandler(server, CONTEXT_ROOT);
 
         FilterHolder filterHolder = new FilterHolder(filter);
-        context.addFilter(filterHolder, APPLICATION_PATH + "/*", null);
+        context.addFilter(filterHolder, APPLICATION_PATH + ConfigConstants.URL_PATTERN, null);
 
         final ServletHolder defaultServlet = new ServletHolder(new DefaultServlet());
         context.addServlet(defaultServlet, CONTEXT_ROOT);
@@ -67,16 +67,12 @@ public class Main {
         context.setResourceBase(resourceBasePath);
         context.setWelcomeFiles(new String[] { "index.html" });
 
-        eventListenerScanner.accept((listener) -> {
-            context.addEventListener(listener);
-        });
+        eventListenerScanner.accept(context::addEventListener);
 
         final HandlerCollection handlers = new HandlerCollection();
         handlers.addHandler(server.getHandler());
 
-        handlerScanner.accept((handler) -> {
-            handlers.addHandler(handler);
-        });
+        handlerScanner.accept(handlers::addHandler);
 
         server.setHandler(handlers);
         server.start();

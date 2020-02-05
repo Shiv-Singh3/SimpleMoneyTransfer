@@ -1,13 +1,9 @@
-package simpleMoneyTransfer.guice;
+package simpleMoneyTransfer.main.guice;
 
 import java.lang.reflect.Type;
-
 import com.google.inject.Binding;
 import com.google.inject.Injector;
 
-/**
- * Walks through the guice injector bindings, visiting each one that is of the specified type.
- */
 public class Scanner<T> {
 
     public static interface Visitor<V> {
@@ -23,12 +19,10 @@ public class Scanner<T> {
         this.scanFor = scanFor;
     }
 
-    /** Start the process, visiting each ServletContextListener bound in the injector or any parents */
     public void accept(Visitor<T> visitor) {
         accept(injector, visitor);
     }
 
-    /** Recursive impl that walks up the parent injectors first */
     private void accept(Injector inj, Visitor visitor) {
         if (inj == null)
             return;
