@@ -1,4 +1,4 @@
-package simpleMoneyTransfer.jetty;
+package simpleMoneyTransfer.main.jetty;
 
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;

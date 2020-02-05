@@ -1,7 +1,7 @@
-package simpleMoneyTransfer.resource;
+package simpleMoneyTransfer.main.resource;
 
 import com.google.inject.AbstractModule;
-import simpleMoneyTransfer.MessageResource;
+import simpleMoneyTransfer.webServices.MessageResource;
 
 public class ResourceModule extends AbstractModule {
 

@@ -1,14 +1,9 @@
-package simpleMoneyTransfer.guice;
+package simpleMoneyTransfer.main.guice;
 
 import java.util.EventListener;
-
 import javax.inject.Inject;
-
 import com.google.inject.Injector;
 
-/**
- * Walks through the guice injector bindings, visiting each one that is an EventListener.
- */
 public class EventListenerScanner extends Scanner<EventListener> {
 
     @Inject

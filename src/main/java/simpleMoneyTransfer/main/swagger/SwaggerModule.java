@@ -1,13 +1,13 @@
-package simpleMoneyTransfer.swagger;
+package simpleMoneyTransfer.main.swagger;
 
 import javax.servlet.ServletContextListener;
-
-import com.google.common.base.Preconditions;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.servlet.ServletModule;
-
+import com.google.common.base.Preconditions;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import simpleMoneyTransfer.constants.ConfigConstants;
+import simpleMoneyTransfer.utils.ConfigUtils;
 
 public class SwaggerModule extends ServletModule {
 
@@ -18,18 +18,16 @@ public class SwaggerModule extends ServletModule {
     }
 
     public SwaggerModule(final String path) {
-        //Preconditions.checkArgument(path.length() == 0 || path.startsWith("/"), "Path must begin with '/'");
-        //Preconditions.checkArgument(!path.endsWith("/"), "Path must not have a trailing '/'");
-        this.path = path;  // e.g., "/api"
+        Preconditions.checkArgument(
+                ConfigUtils.preConditionStartCheck(path), "Path must begin with '/'");
+        Preconditions.checkArgument(
+                ConfigUtils.preConditionEndCheck(path), "Path must not have a trailing '/'");
+        this.path = path;
     }
 
     @Override
     protected void configureServlets() {
 
-        // We must initialise Swagger before the first request is processed.
-        // That's why JEE defines the ServletContextListener interface.
-        // Swagger doesn't provide a ServletContextListener implementation
-        // so we need to (i.e., SwaggerServletContextListener).
         Multibinder<ServletContextListener> multibinder = Multibinder.newSetBinder(binder(),
                 ServletContextListener.class);
         multibinder.addBinding().to(SwaggerServletContextListener.class);
@@ -38,9 +36,9 @@ public class SwaggerModule extends ServletModule {
         bind(SwaggerSerializers.class);
 
         if (path == null) {
-            filter("/*").through(ApiOriginFilter.class);
+            filter(ConfigConstants.URL_PATTERN).through(ApiOriginFilter.class);
         } else {
-            filter(path + "/*").through(ApiOriginFilter.class);
+            filter(path + ConfigConstants.URL_PATTERN).through(ApiOriginFilter.class);
         }
     }
 }

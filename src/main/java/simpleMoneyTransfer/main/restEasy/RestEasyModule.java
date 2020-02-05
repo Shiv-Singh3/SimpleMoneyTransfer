@@ -1,14 +1,14 @@
-package simpleMoneyTransfer.restEasy;
+package simpleMoneyTransfer.main.restEasy;
 
 import java.util.Map;
-
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
+import simpleMoneyTransfer.constants.ConfigConstants;
+import simpleMoneyTransfer.utils.ConfigUtils;
 
 public class RestEasyModule extends ServletModule {
 
@@ -19,9 +19,11 @@ public class RestEasyModule extends ServletModule {
     }
 
     public RestEasyModule(final String path) {
-//        Preconditions.checkArgument(path.length() == 0 || path.startsWith("/"), "Path must begin with '/'");
-//        Preconditions.checkArgument(!path.endsWith("/"), "Path must not have a trailing '/'");
-        this.path = path;  // e.g., "/api"
+        Preconditions.checkArgument(
+                ConfigUtils.preConditionStartCheck(path), "Path must begin with '/'");
+        Preconditions.checkArgument(
+                ConfigUtils.preConditionEndCheck(path), "Path must not have a trailing '/'");
+        this.path = path;
     }
 
     @Override
@@ -31,10 +33,11 @@ public class RestEasyModule extends ServletModule {
         bind(HttpServletDispatcher.class).in(Singleton.class);
 
         if (path == null) {
-            serve("/*").with(HttpServletDispatcher.class);
+            serve(ConfigConstants.URL_PATTERN).with(HttpServletDispatcher.class);
         } else {
-            final Map<String, String> initParams = ImmutableMap.of("resteasy.servlet.mapping.prefix", path);
-            serve(path + "/*").with(HttpServletDispatcher.class, initParams);
+            final Map<String, String> initParams = ImmutableMap.of(
+                    ConfigConstants.REST_EASY_SERVLET_MAPPING_PREFIX, path);
+            serve(path + ConfigConstants.URL_PATTERN).with(HttpServletDispatcher.class, initParams);
         }
     }
 }
