@@ -29,7 +29,7 @@ final class SwaggerServletContextListener implements ServletContextListener {
         beanConfig.setSchemes(new String[] { ConfigConstants.BEAN_CONFIG_PROTOCOL });
         beanConfig.setHost(ConfigConstants.BEAN_CONFIG_HOST + CommonConstants.COLON + ConfigConstants.BEAN_CONFIG_PORT);
         beanConfig.setBasePath(ConfigConstants.BEAN_CONFIG_BASE_PATH);
-        beanConfig.setResourcePackage(CreateAccountWebService.class.getPackage().getName());
+        beanConfig.setResourcePackage("simpleMoneyTransfer");
         beanConfig.setTitle(ConfigConstants.BEAN_CONFIG_TITLE);
         beanConfig.setDescription(ConfigConstants.BEAN_CONFIG_DESCRIPTION);
         beanConfig.setScan(ConfigConstants.BEAN_CONFIG_SET_SCAN);

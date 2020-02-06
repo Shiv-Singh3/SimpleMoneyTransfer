@@ -1,32 +1,33 @@
-package simpleMoneyTransfer.manager;
+package simpleMoneyTransfer.manager.impl;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import simpleMoneyTransfer.accessor.DatabaseAccessor;
+import simpleMoneyTransfer.accessor.impl.DataBaseAccessorImpl;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
-import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
+import simpleMoneyTransfer.manager.spi.AccountWebServiceManager;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import com.google.inject.Inject;
 import java.util.Currency;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class AccountWebServiceManager {
+public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountWebServiceManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountWebServiceManagerImpl.class);
 
     @Inject
-    private DatabaseAccessor accessor;
+    private DataBaseAccessorImpl accessor;
 
+    @Override
     public void createAccount(AccountDTO accountDTO) {
         Integer accountNumber = accountDTO.getAccountNumber();
         accessor.save(accountNumber, accountDTO);
     }
 
+    @Override
     public void updateAccount(AccountDTO accountDTO) {
         Integer accountNumber = accountDTO.getAccountNumber();
         accessor.save(accountNumber, accountDTO);
@@ -56,6 +57,7 @@ public class AccountWebServiceManager {
         }
     }
 
+    @Override
     public AccountDTO getAccount(Integer accountNumber) {
             return accessor.get(accountNumber);
     }

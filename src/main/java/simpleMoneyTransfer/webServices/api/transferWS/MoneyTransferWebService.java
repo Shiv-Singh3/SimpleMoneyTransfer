@@ -5,7 +5,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
-import simpleMoneyTransfer.manager.TransferWebServiceManager;
+import simpleMoneyTransfer.manager.impl.TransferWebServiceManagerImpl;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 import javax.ws.rs.HeaderParam;
@@ -20,7 +20,7 @@ public class MoneyTransferWebService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MoneyTransferWebService.class);
 
     @Inject
-    private TransferWebServiceManager transferWebServiceManager;
+    private TransferWebServiceManagerImpl transferWebServiceManagerImpl;
 
     @POST
     @ApiOperation(value = "Triggers and executes a money transfer", response = MoneyTransferWebService.class)
@@ -40,8 +40,8 @@ public class MoneyTransferWebService {
         LOGGER.info("Received WebService Request for money transfer");
         LOGGER.debug("Request Body : {}", inputString);
 
-        TransferDTO transferDTO = transferWebServiceManager.parseTransferJson(inputString);
-        transferWebServiceManager.transfer(transferDTO);
+        TransferDTO transferDTO = transferWebServiceManagerImpl.parseTransferJson(inputString);
+        transferWebServiceManagerImpl.transfer(transferDTO);
 
         return Response.status(Response.Status.CREATED).build();
     }
