@@ -14,6 +14,7 @@ import com.google.inject.servlet.GuiceFilter;
 import simpleMoneyTransfer.constants.ConfigConstants;
 import simpleMoneyTransfer.injector.CreateAccountWebServiceModule;
 import simpleMoneyTransfer.injector.GetAccountWebServiceModule;
+import simpleMoneyTransfer.injector.MoneyTransferWebServiceModule;
 import simpleMoneyTransfer.main.guice.EventListenerScanner;
 import simpleMoneyTransfer.main.guice.HandlerScanner;
 import simpleMoneyTransfer.main.jetty.JettyModule;
@@ -44,7 +45,8 @@ public class Main {
                     new RestEasyModule(APPLICATION_PATH),
                     new SwaggerModule(APPLICATION_PATH),
                     new CreateAccountWebServiceModule(),
-                    new GetAccountWebServiceModule());
+                    new GetAccountWebServiceModule(),
+                    new MoneyTransferWebServiceModule());
 
             injector.getInstance(Main.class).run();
 

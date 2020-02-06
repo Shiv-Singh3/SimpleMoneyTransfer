@@ -13,6 +13,7 @@ public enum Errors {
     INVALID_LANGUAGE_CODE_ERR("1001", "Invalid Language Code"),
     INVALID_NAME_ERR("2001", "Invalid/Empty Name"),
     INVALID_ACCOUNT_CREATE_JSON_ERR("2002", "Invalid JSON for creating account"),
+    INVALID_ACCOUNT_TRANSFER_JSON_ERR("2003", "Invalid JSON for transferring amount"),
     ACCOUNT_NUMBER_NOT_FOUND_ERR("3001", "Account Number Not Found");
 
     @ToString.Include

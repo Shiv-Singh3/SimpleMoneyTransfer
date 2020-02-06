@@ -5,10 +5,16 @@ public class CommonConstants {
     public static final String BACK_SLASH = "/";
     public static final String COLON = ":";
 
+    //Account DTO
     public static final String NAME = "name";
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String BALANCE = "balance";
     public static final String CURRENCY = "currency";
+
+    //Transfer STO
+    public static final String SOURCE_ACCOUNT_NUM = "sourceAccountNumber";
+    public static final String DESTINATION_ACCOUNT_NUM = "destinationAccountNumber";
+    public static final String TRANSFER_AMOUNT = "amount";
 
     public static final int ZERO = 0;
 

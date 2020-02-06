@@ -27,6 +27,11 @@ public class AccountWebServiceManager {
         accessor.save(accountNumber, accountDTO);
     }
 
+    public void updateAccount(AccountDTO accountDTO) {
+        Integer accountNumber = accountDTO.getAccountNumber();
+        accessor.save(accountNumber, accountDTO);
+    }
+
     public AccountDTO parseAccountJson(String accountJson) {
 
         AccountDTO accountDTO;
