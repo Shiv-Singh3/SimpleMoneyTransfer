@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
-import simpleMoneyTransfer.manager.AccountWebServiceManager;
+import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 
@@ -24,7 +24,7 @@ public class GetAccountWebService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetAccountWebService.class);
 
     @Inject
-    private AccountWebServiceManager accountWebServiceManager;
+    private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
 
     @GET
     @Path("/getAccount")
@@ -47,7 +47,7 @@ public class GetAccountWebService {
                                        required = true, defaultValue = "en-US")
                                @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
         Integer accNumber = Integer.parseInt(accountNumber);
-        AccountDTO accountDTO = accountWebServiceManager.getAccount(accNumber);
+        AccountDTO accountDTO = accountWebServiceManagerImpl.getAccount(accNumber);
         if (accountDTO == null) {
             LOGGER.error("Account Number Not Found : {}", accNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);

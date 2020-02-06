@@ -6,11 +6,8 @@ import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import simpleMoneyTransfer.accessor.DatabaseAccessor;
 import simpleMoneyTransfer.constants.CommonConstants;
-import simpleMoneyTransfer.constants.Errors;
-import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
-import simpleMoneyTransfer.manager.AccountWebServiceManager;
+import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.validation.ValidCreateAccountJson;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
@@ -22,7 +19,7 @@ public class CreateAccountWebService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAccountWebService.class);
 
     @Inject
-    private AccountWebServiceManager accountWebServiceManager;
+    private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
 
     @POST
     @Path("/create")
@@ -41,8 +38,8 @@ public class CreateAccountWebService {
                   @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                           required = true, defaultValue = "en-US")
                   @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
-        AccountDTO accountDTO = accountWebServiceManager.parseAccountJson(inputString);
-        accountWebServiceManager.createAccount(accountDTO);
+        AccountDTO accountDTO = accountWebServiceManagerImpl.parseAccountJson(inputString);
+        accountWebServiceManagerImpl.createAccount(accountDTO);
         return Response.status(Response.Status.CREATED).build();
     }
 }
