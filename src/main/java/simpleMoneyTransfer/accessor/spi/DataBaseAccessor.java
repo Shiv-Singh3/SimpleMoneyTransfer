@@ -7,4 +7,6 @@ public interface DataBaseAccessor {
     void save(Integer key, AccountDTO value);
 
     AccountDTO get(Integer key);
+
+    void remove(Integer key);
 }

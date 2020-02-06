@@ -61,4 +61,9 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
     public AccountDTO getAccount(Integer accountNumber) {
             return accessor.get(accountNumber);
     }
+
+    @Override
+    public void deleteAccount(Integer accountNumber) {
+        accessor.remove(accountNumber);
+    }
 }

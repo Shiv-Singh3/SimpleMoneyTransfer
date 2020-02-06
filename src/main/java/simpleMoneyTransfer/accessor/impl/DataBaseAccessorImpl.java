@@ -18,4 +18,9 @@ public class DataBaseAccessorImpl implements DataBaseAccessor{
         return db.get(key);
     }
 
+    @Override
+    public void remove(Integer key) {
+        db.remove(key);
+    }
+
 }
