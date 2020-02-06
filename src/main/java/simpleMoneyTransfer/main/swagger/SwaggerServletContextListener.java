@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import io.swagger.config.ScannerFactory;
 import io.swagger.jaxrs.config.BeanConfig;
+import simpleMoneyTransfer.webServices.AccountWebServices;
 import simpleMoneyTransfer.webServices.MessageResource;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.ConfigConstants;

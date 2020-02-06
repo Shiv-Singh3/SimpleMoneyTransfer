@@ -12,10 +12,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import simpleMoneyTransfer.constants.ConfigConstants;
+import simpleMoneyTransfer.injector.AccountWebServicesModule;
 import simpleMoneyTransfer.main.guice.EventListenerScanner;
 import simpleMoneyTransfer.main.guice.HandlerScanner;
 import simpleMoneyTransfer.main.jetty.JettyModule;
-import simpleMoneyTransfer.main.resource.ResourceModule;
+import simpleMoneyTransfer.injector.ResourceModule;
 import simpleMoneyTransfer.main.restEasy.RestEasyModule;
 import simpleMoneyTransfer.main.swagger.SwaggerModule;
 import javax.inject.Inject;
@@ -41,7 +42,8 @@ public class Main {
             Log.setLog(new Slf4jLog());
             final Injector injector = Guice.createInjector(new JettyModule(),
                     new RestEasyModule(APPLICATION_PATH),
-                    new ResourceModule(), new SwaggerModule(APPLICATION_PATH));
+                    new ResourceModule(), new SwaggerModule(APPLICATION_PATH),
+                    new AccountWebServicesModule());
 
             injector.getInstance(Main.class).run();
 

@@ -31,7 +31,7 @@ public class ConfigConstants {
     public static final boolean BEAN_CONFIG_SET_SCAN = true;
 
     //MAIN CONSTANTS
-    public static final String APPLICATION_PATH = "/api";
+    public static final String APPLICATION_PATH = "/simpleMoneyTransfer";
     public static final String CONTEXT_ROOT = "/";
     public static final int PORT = 8080;
 }

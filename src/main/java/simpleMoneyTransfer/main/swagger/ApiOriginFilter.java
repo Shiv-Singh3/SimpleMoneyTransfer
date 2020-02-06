@@ -19,7 +19,7 @@ final class ApiOriginFilter implements Filter {
             throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;
         res.addHeader(ConfigConstants.HEADER_ALLOW_ORIGIN, ConfigConstants.HEADER_ALLOW_ORIGIN_VALUE);
-        res.addHeader(ConfigConstants.HEADER_ALLOW_HEADERS, ConfigConstants.HEADER_ALLOW_HEADERS_VALUE);
+//        res.addHeader(ConfigConstants.HEADER_ALLOW_HEADERS, ConfigConstants.HEADER_ALLOW_HEADERS_VALUE);
         res.addHeader(ConfigConstants.HEADER_ALLOW_METHODS, ConfigConstants.HEADER_ALLOW_METHODS_VALUE);
         chain.doFilter(request, response);
     }
