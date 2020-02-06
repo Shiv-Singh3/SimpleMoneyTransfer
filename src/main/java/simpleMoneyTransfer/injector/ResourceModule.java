@@ -1,4 +1,4 @@
-package simpleMoneyTransfer.main.resource;
+package simpleMoneyTransfer.injector;
 
 import com.google.inject.AbstractModule;
 import simpleMoneyTransfer.webServices.MessageResource;
