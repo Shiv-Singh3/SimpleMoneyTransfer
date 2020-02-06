@@ -4,12 +4,14 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import simpleMoneyTransfer.accessor.DatabaseAccessor;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
+import com.google.inject.Inject;
 import java.util.Currency;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,9 +19,12 @@ public class AccountWebServiceManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountWebServiceManager.class);
 
-    public void createAccount(AccountDTO accountDTO, ConcurrentHashMap<Integer, AccountDTO> accounts) {
+    @Inject
+    private DatabaseAccessor accessor;
+
+    public void createAccount(AccountDTO accountDTO) {
         Integer accountNumber = accountDTO.getAccountNumber();
-        accounts.put(accountNumber, accountDTO);
+        accessor.save(accountNumber, accountDTO);
     }
 
     public AccountDTO parseAccountJson(String accountJson) {
@@ -44,5 +49,9 @@ public class AccountWebServiceManager {
             throw new SimpleMoneyTransferValidationException(
                     Errors.INVALID_ACCOUNT_CREATE_JSON_ERR, "Exception occurred while parsing json request body", e);
         }
+    }
+
+    public AccountDTO getAccount(Integer accountNumber) {
+            return accessor.get(accountNumber);
     }
 }
