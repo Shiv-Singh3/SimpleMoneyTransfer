@@ -9,4 +9,6 @@ public interface AccountWebServiceManager {
     void updateAccount(AccountDTO accountDTO);
 
     AccountDTO getAccount(Integer accountNumber);
+
+    void deleteAccount(Integer accountNumber);
 }
