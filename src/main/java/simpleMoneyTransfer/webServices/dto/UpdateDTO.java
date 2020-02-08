@@ -4,20 +4,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import java.util.Currency;
 
 @Builder
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountDTO {
-
-    private String name;
+public class UpdateDTO {
 
     private Integer accountNumber;
-
-    private Double balance;
-
-    private Currency currency;
 
     private String emailId;
 

@@ -10,6 +10,8 @@ public class CommonConstants {
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String BALANCE = "balance";
     public static final String CURRENCY = "currency";
+    public static final String EMAIL_ID = "emailId";
+    public static final String MOBILE_NO = "mobileNo";
 
     //Transfer STO
     public static final String SOURCE_ACCOUNT_NUM = "sourceAccountNumber";

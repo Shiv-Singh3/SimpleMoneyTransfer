@@ -12,10 +12,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import simpleMoneyTransfer.constants.ConfigConstants;
-import simpleMoneyTransfer.injector.CreateAccountWebServiceModule;
-import simpleMoneyTransfer.injector.DeleteAccountWebServiceModule;
-import simpleMoneyTransfer.injector.GetAccountWebServiceModule;
-import simpleMoneyTransfer.injector.MoneyTransferWebServiceModule;
+import simpleMoneyTransfer.injector.*;
 import simpleMoneyTransfer.main.guice.EventListenerScanner;
 import simpleMoneyTransfer.main.guice.HandlerScanner;
 import simpleMoneyTransfer.main.jetty.JettyModule;
@@ -48,7 +45,8 @@ public class Main {
                     new CreateAccountWebServiceModule(),
                     new GetAccountWebServiceModule(),
                     new MoneyTransferWebServiceModule(),
-                    new DeleteAccountWebServiceModule());
+                    new DeleteAccountWebServiceModule(),
+                    new UpdateAccountWebServiceModule());
 
             injector.getInstance(Main.class).run();
 
