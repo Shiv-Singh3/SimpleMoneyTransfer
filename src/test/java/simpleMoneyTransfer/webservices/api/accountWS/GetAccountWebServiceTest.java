@@ -11,9 +11,7 @@ import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.webServices.api.accountWS.GetAccountWebService;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
-
 import javax.ws.rs.core.Response;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
