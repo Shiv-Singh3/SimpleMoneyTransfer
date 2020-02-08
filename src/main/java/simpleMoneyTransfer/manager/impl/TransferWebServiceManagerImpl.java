@@ -2,16 +2,11 @@ package simpleMoneyTransfer.manager.impl;
 
 import com.google.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
-import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.spi.TransferWebServiceManager;
-import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 
@@ -55,30 +50,5 @@ public class TransferWebServiceManagerImpl implements TransferWebServiceManager 
     public boolean isValidTransaction(AccountDTO sourceAccountDTO, AccountDTO destAccountDTO, Double amount) {
         return StringUtils.equals(sourceAccountDTO.getCurrency().getCurrencyCode(),
                 destAccountDTO.getCurrency().getCurrencyCode()) && sourceAccountDTO.getBalance() >= amount;
-    }
-
-    public TransferDTO parseTransferJson(String transferJson) {
-
-        TransferDTO transferDTO;
-
-        try {
-            JSONObject jsonObject = new JSONObject(transferJson);
-            Integer sourceAccount = (Integer) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.SOURCE_ACCOUNT_NUM);
-            Integer destinationAccount = (Integer) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.DESTINATION_ACCOUNT_NUM);
-            Double amount = (Double) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.TRANSFER_AMOUNT);
-
-            transferDTO = TransferDTO.builder()
-                    .sourceAccountNumber(sourceAccount)
-                    .destinationAccountNumber(destinationAccount)
-                    .amount(amount)
-                    .build();
-            return transferDTO;
-        } catch (JSONException e) {
-            throw new SimpleMoneyTransferValidationException(
-                    Errors.INVALID_ACCOUNT_TRANSFER_JSON_ERR, "Exception occurred while parsing json request body", e);
-        }
     }
 }

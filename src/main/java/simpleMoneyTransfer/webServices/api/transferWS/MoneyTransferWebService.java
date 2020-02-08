@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.TransferWebServiceManagerImpl;
+import simpleMoneyTransfer.parser.MoneyTransferJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
@@ -23,6 +24,9 @@ public class MoneyTransferWebService {
 
     @Inject
     private TransferWebServiceManagerImpl transferWebServiceManagerImpl;
+
+    @Inject
+    private MoneyTransferJsonParser moneyTransferJsonParser;
 
     @POST
     @ApiOperation(value = "Triggers and executes a money transfer", response = MoneyTransferWebService.class)
@@ -45,7 +49,7 @@ public class MoneyTransferWebService {
         TransferDTO transferDTO = null;
 
         try {
-            transferDTO = transferWebServiceManagerImpl.parseTransferJson(inputString);
+            transferDTO = moneyTransferJsonParser.parseTransferJson(inputString);
             transferWebServiceManagerImpl.transfer(transferDTO);
             LOGGER.info("Successfully Transferred amount : {}, source account number : {}, " +
                     "destination account number : {}", transferDTO.getAmount(),

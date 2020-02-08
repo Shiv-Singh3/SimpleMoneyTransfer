@@ -10,6 +10,7 @@ import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
+import simpleMoneyTransfer.parser.CreateAccountJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.validation.ValidCreateAccountJson;
@@ -23,6 +24,9 @@ public class CreateAccountWebService {
 
     @Inject
     private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
+
+    @Inject
+    private CreateAccountJsonParser createAccountJsonParser;
 
     @POST
     @Path("/create")
@@ -46,7 +50,7 @@ public class CreateAccountWebService {
         LOGGER.debug("Input Json Body : {}", inputString);
 
         try {
-            AccountDTO accountDTO = accountWebServiceManagerImpl.parseAccountJson(inputString);
+            AccountDTO accountDTO = createAccountJsonParser.parseAccountJson(inputString);
             accountWebServiceManagerImpl.createAccount(accountDTO);
             LOGGER.info("Account created successfully for account number : {}", accountDTO.getAccountNumber());
             return Response.status(Response.Status.CREATED).build();
@@ -60,5 +64,4 @@ public class CreateAccountWebService {
     }
 }
 
-//todo check for duplicate account creation
 //todo fix annotation validation

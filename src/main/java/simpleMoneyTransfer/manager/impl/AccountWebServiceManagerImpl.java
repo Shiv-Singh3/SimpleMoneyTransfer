@@ -1,19 +1,15 @@
 package simpleMoneyTransfer.manager.impl;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.accessor.impl.DataBaseAccessorImpl;
-import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
-import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.spi.AccountWebServiceManager;
-import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import com.google.inject.Inject;
-import java.util.Currency;
+import simpleMoneyTransfer.webServices.dto.UpdateDTO;
 
 public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
 
@@ -45,6 +41,26 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
     }
 
     @Override
+    public void updateAccount(UpdateDTO updateDTO) {
+        Integer accountNumber = updateDTO.getAccountNumber();
+        if (accessor.hasKey(accountNumber)) {
+            AccountDTO accountDTO = accessor.get(accountNumber);
+            String emailId = updateDTO.getEmailId();
+            String mobileNo = updateDTO.getMobileNo();
+            if (!StringUtils.isEmpty(emailId)) {
+                accountDTO.setEmailId(emailId);
+            }
+            if (!StringUtils.isEmpty(mobileNo)) {
+                accountDTO.setMobileNo(mobileNo);
+            }
+            accessor.save(accountNumber, accountDTO);
+        } else {
+            LOGGER.error("Account Not Found for account number : {}", accountNumber);
+            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
+        }
+    }
+
+    @Override
     public AccountDTO getAccount(Integer accountNumber) {
         if (accessor.hasKey(accountNumber)) {
             return accessor.get(accountNumber);
@@ -61,30 +77,6 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
         } else  {
             LOGGER.error("Account not found for account number : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
-        }
-    }
-
-    public AccountDTO parseAccountJson(String accountJson) {
-
-        AccountDTO accountDTO;
-        try {
-            JSONObject jsonObject = new JSONObject(accountJson);
-
-            String name = (String) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.NAME);
-            Integer accountNumber = (Integer) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.ACCOUNT_NUMBER);
-            Double balance = (Double) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.BALANCE);
-            Currency currency = (Currency) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.CURRENCY);
-
-            accountNumber = (accountNumber == null) ? CommonUtils.generateUniqueAccountNumber() : accountNumber;
-            balance = (balance == null) ? CommonUtils.getDefaultBalance() : balance;
-            currency = (currency == null) ? CommonUtils.getDefaultCurrency() : currency;
-
-            accountDTO = AccountDTO.builder()
-                    .name(name).accountNumber(accountNumber).balance(balance).currency(currency).build();
-            return accountDTO;
-        } catch (JSONException e) {
-            throw new SimpleMoneyTransferValidationException(
-                    Errors.INVALID_ACCOUNT_CREATE_JSON_ERR, "Exception occurred while parsing json request body", e);
         }
     }
 }
