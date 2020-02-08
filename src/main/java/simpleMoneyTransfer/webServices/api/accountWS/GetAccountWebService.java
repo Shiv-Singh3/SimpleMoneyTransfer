@@ -43,7 +43,7 @@ public class GetAccountWebService {
                     message = "Internal Server Error", response = CreateAccountWebService.class)
     })
     public Response getAccount(@ApiParam(name = "Account Number", value = "Account Number", required = true)
-                               @QueryParam("accountNumber") String accountNumber,
+                               @QueryParam("accountNumber") Integer accountNumber,
                                @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                                        required = true, defaultValue = "en-US")
                                @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
@@ -52,10 +52,9 @@ public class GetAccountWebService {
         AccountDTO accountDTO;
 
         try {
-            Integer accNumber = Integer.parseInt(accountNumber);
-            accountDTO = accountWebServiceManagerImpl.getAccount(accNumber);
+            accountDTO = accountWebServiceManagerImpl.getAccount(accountNumber);
             LOGGER.info("Successfully fetched account for account number : {}", accountNumber);
-            return Response.status(Response.Status.ACCEPTED).entity(accountDTO.toString()).build();
+            return Response.status(Response.Status.OK).entity(accountDTO.toString()).build();
         } catch (SimpleMoneyTransferApplicationException e) {
             LOGGER.error("Unable to fetch account for account number : {}, Application exception : {}",
                     accountNumber, e.toString());
