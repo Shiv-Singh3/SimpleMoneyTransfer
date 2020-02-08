@@ -5,7 +5,9 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
+import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.HeaderParam;
@@ -43,7 +45,14 @@ public class DeleteAccountWebService {
             @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                     required = true, defaultValue = "en-US")
             @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
-        accountWebServiceManager.deleteAccount(accountNumber);
-        return Response.status(Response.Status.CREATED).build();
+        try {
+            accountWebServiceManager.deleteAccount(accountNumber);
+            LOGGER.info("Successfully Deleted Account for account number : {}", accountNumber);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (SimpleMoneyTransferApplicationException e) {
+            LOGGER.error("Unable to delete account for account number : {}, Application Exception : {}",
+                    accountNumber, e.toString());
+            return CommonUtils.createWebServiceErrorResponse(e);
+        }
     }
 }

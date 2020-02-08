@@ -23,4 +23,8 @@ public class DataBaseAccessorImpl implements DataBaseAccessor{
         db.remove(key);
     }
 
+    @Override
+    public boolean hasKey(Integer key) {
+        return db.containsKey(key);
+    }
 }

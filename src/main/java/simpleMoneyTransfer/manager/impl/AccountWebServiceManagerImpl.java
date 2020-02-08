@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.accessor.impl.DataBaseAccessorImpl;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.spi.AccountWebServiceManager;
 import simpleMoneyTransfer.utils.CommonUtils;
@@ -24,13 +25,43 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
     @Override
     public void createAccount(AccountDTO accountDTO) {
         Integer accountNumber = accountDTO.getAccountNumber();
-        accessor.save(accountNumber, accountDTO);
+        if (!accessor.hasKey(accountNumber)) {
+            accessor.save(accountNumber, accountDTO);
+        } else {
+            LOGGER.error("Account already exists for the account number : {}", accountNumber);
+            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_ALREADY_EXISTS_ERR);
+        }
     }
 
     @Override
     public void updateAccount(AccountDTO accountDTO) {
         Integer accountNumber = accountDTO.getAccountNumber();
-        accessor.save(accountNumber, accountDTO);
+        if (accessor.hasKey(accountNumber)) {
+            accessor.save(accountNumber, accountDTO);
+        } else {
+            LOGGER.error("Account Not Found for account number : {}", accountNumber);
+            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
+        }
+    }
+
+    @Override
+    public AccountDTO getAccount(Integer accountNumber) {
+        if (accessor.hasKey(accountNumber)) {
+            return accessor.get(accountNumber);
+        } else {
+            LOGGER.error("Account Number Not Found : {}", accountNumber);
+            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
+        }
+    }
+
+    @Override
+    public void deleteAccount(Integer accountNumber) {
+        if (accessor.hasKey(accountNumber)) {
+            accessor.remove(accountNumber);
+        } else  {
+            LOGGER.error("Account not found for account number : {}", accountNumber);
+            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
+        }
     }
 
     public AccountDTO parseAccountJson(String accountJson) {
@@ -55,15 +86,5 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
             throw new SimpleMoneyTransferValidationException(
                     Errors.INVALID_ACCOUNT_CREATE_JSON_ERR, "Exception occurred while parsing json request body", e);
         }
-    }
-
-    @Override
-    public AccountDTO getAccount(Integer accountNumber) {
-            return accessor.get(accountNumber);
-    }
-
-    @Override
-    public void deleteAccount(Integer accountNumber) {
-        accessor.remove(accountNumber);
     }
 }

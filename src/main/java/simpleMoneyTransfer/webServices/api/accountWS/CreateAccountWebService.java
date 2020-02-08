@@ -7,7 +7,10 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
+import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.validation.ValidCreateAccountJson;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
@@ -38,9 +41,22 @@ public class CreateAccountWebService {
                   @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                           required = true, defaultValue = "en-US")
                   @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
-        AccountDTO accountDTO = accountWebServiceManagerImpl.parseAccountJson(inputString);
-        accountWebServiceManagerImpl.createAccount(accountDTO);
-        return Response.status(Response.Status.CREATED).build();
+
+        LOGGER.info("Received Request for creating account");
+        LOGGER.debug("Input Json Body : {}", inputString);
+
+        try {
+            AccountDTO accountDTO = accountWebServiceManagerImpl.parseAccountJson(inputString);
+            accountWebServiceManagerImpl.createAccount(accountDTO);
+            LOGGER.info("Account created successfully for account number : {}", accountDTO.getAccountNumber());
+            return Response.status(Response.Status.CREATED).build();
+        } catch (SimpleMoneyTransferValidationException e) {
+            LOGGER.error("Invalid Request, Input Json : {}", inputString);
+            return CommonUtils.createWebServiceErrorResponse(e);
+        } catch (SimpleMoneyTransferApplicationException e) {
+            LOGGER.error("Unable Create Account, Application exception : {}", e.toString());
+            return CommonUtils.createWebServiceErrorResponse(e);
+        }
     }
 }
 

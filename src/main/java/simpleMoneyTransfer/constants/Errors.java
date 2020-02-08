@@ -14,7 +14,9 @@ public enum Errors {
     INVALID_NAME_ERR("2001", "Invalid/Empty Name"),
     INVALID_ACCOUNT_CREATE_JSON_ERR("2002", "Invalid JSON for creating account"),
     INVALID_ACCOUNT_TRANSFER_JSON_ERR("2003", "Invalid JSON for transferring amount"),
-    ACCOUNT_NUMBER_NOT_FOUND_ERR("3001", "Account Number Not Found");
+    INVALID_TRANSFER_REQUEST("2004", "Invalid Transaction Request"),
+    ACCOUNT_NUMBER_NOT_FOUND_ERR("3001", "Account Number Not Found"),
+    ACCOUNT_NUMBER_ALREADY_EXISTS_ERR("3002", "Account Number Already Exists");
 
     @ToString.Include
     private String code;
