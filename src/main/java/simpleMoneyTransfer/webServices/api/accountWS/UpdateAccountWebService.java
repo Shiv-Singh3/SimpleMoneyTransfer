@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.parser.UpdateAccountJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
@@ -61,7 +62,10 @@ public class UpdateAccountWebService {
             accountWebServiceManager.updateAccount(updateDTO);
             LOGGER.info("Successfully Updated account for account no. : {}", updateDTO.getAccountNumber());
             return Response.status(Response.Status.CREATED).build();
-        } catch (SimpleMoneyTransferApplicationException e) {
+        } catch (SimpleMoneyTransferValidationException e) {
+            LOGGER.error("Validation Exception occurred while parsing json request body : {}", inputString);
+            return CommonUtils.createWebServiceErrorResponse(e);
+        } catch(SimpleMoneyTransferApplicationException e) {
             LOGGER.error("Unable To Update Account for account number : {}, Application Exception : {}",
                     accountNumber, e.toString());
             return CommonUtils.createWebServiceErrorResponse(e);
