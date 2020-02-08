@@ -5,7 +5,9 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.TransferWebServiceManagerImpl;
+import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 import javax.ws.rs.HeaderParam;
@@ -40,9 +42,22 @@ public class MoneyTransferWebService {
         LOGGER.info("Received WebService Request for money transfer");
         LOGGER.debug("Request Body : {}", inputString);
 
-        TransferDTO transferDTO = transferWebServiceManagerImpl.parseTransferJson(inputString);
-        transferWebServiceManagerImpl.transfer(transferDTO);
+        TransferDTO transferDTO = null;
 
-        return Response.status(Response.Status.CREATED).build();
+        try {
+            transferDTO = transferWebServiceManagerImpl.parseTransferJson(inputString);
+            transferWebServiceManagerImpl.transfer(transferDTO);
+            LOGGER.info("Successfully Transferred amount : {}, source account number : {}, " +
+                    "destination account number : {}", transferDTO.getAmount(),
+                    transferDTO.getSourceAccountNumber(), transferDTO.getDestinationAccountNumber());
+            return Response.status(Response.Status.CREATED).build();
+        } catch (SimpleMoneyTransferApplicationException e) {
+            LOGGER.error("Exception occurred while transferring money for source account number : {}, " +
+                    "destination account number : {} : {}",
+                    transferDTO != null ? transferDTO.getSourceAccountNumber() : null,
+                    transferDTO != null ? transferDTO.getDestinationAccountNumber() : null,
+                    e.toString());
+            return CommonUtils.createWebServiceErrorResponse(e);
+        }
     }
 }

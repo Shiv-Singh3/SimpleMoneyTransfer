@@ -8,6 +8,7 @@ import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
+import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 
@@ -46,12 +47,19 @@ public class GetAccountWebService {
                                @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                                        required = true, defaultValue = "en-US")
                                @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
-        Integer accNumber = Integer.parseInt(accountNumber);
-        AccountDTO accountDTO = accountWebServiceManagerImpl.getAccount(accNumber);
-        if (accountDTO == null) {
-            LOGGER.error("Account Number Not Found : {}", accNumber);
-            throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
+
+        LOGGER.info("Received request for fetching account for account number : {}", accountNumber);
+        AccountDTO accountDTO;
+
+        try {
+            Integer accNumber = Integer.parseInt(accountNumber);
+            accountDTO = accountWebServiceManagerImpl.getAccount(accNumber);
+            LOGGER.info("Successfully fetched account for account number : {}", accountNumber);
+            return Response.status(Response.Status.ACCEPTED).entity(accountDTO.toString()).build();
+        } catch (SimpleMoneyTransferApplicationException e) {
+            LOGGER.error("Unable to fetch account for account number : {}, Application exception : {}",
+                    accountNumber, e.toString());
+            return CommonUtils.createWebServiceErrorResponse(e);
         }
-        return Response.status(Response.Status.ACCEPTED).entity(accountDTO.toString()).build();
     }
 }

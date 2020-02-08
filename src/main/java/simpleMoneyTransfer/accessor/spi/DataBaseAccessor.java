@@ -9,4 +9,6 @@ public interface DataBaseAccessor {
     AccountDTO get(Integer key);
 
     void remove(Integer key);
+
+    boolean hasKey(Integer key);
 }
