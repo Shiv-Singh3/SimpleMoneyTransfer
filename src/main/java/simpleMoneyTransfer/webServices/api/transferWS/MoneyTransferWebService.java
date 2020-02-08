@@ -2,10 +2,12 @@ package simpleMoneyTransfer.webServices.api.transferWS;
 
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.impl.TransferWebServiceManagerImpl;
 import simpleMoneyTransfer.parser.MoneyTransferJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
@@ -18,9 +20,8 @@ import javax.ws.rs.core.Response;
 
 @Path("/transfer")
 @Api(value = "Transfer Web Services")
+@Slf4j
 public class MoneyTransferWebService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoneyTransferWebService.class);
 
     @Inject
     private TransferWebServiceManagerImpl transferWebServiceManagerImpl;
@@ -43,20 +44,23 @@ public class MoneyTransferWebService {
             required = true, defaultValue = "en-US")
             @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
 
-        LOGGER.info("Received WebService Request for money transfer");
-        LOGGER.debug("Request Body : {}", inputString);
+        log.info("Received WebService Request for money transfer");
+        log.debug("Request Body : {}", inputString);
 
         TransferDTO transferDTO = null;
 
         try {
             transferDTO = moneyTransferJsonParser.parseTransferJson(inputString);
             transferWebServiceManagerImpl.transfer(transferDTO);
-            LOGGER.info("Successfully Transferred amount : {}, source account number : {}, " +
+            log.info("Successfully Transferred amount : {}, source account number : {}, " +
                     "destination account number : {}", transferDTO.getAmount(),
                     transferDTO.getSourceAccountNumber(), transferDTO.getDestinationAccountNumber());
             return Response.status(Response.Status.CREATED).build();
+        } catch (SimpleMoneyTransferValidationException e) {
+            log.error("Exception occurred while parsing request json : {}", e.toString());
+            return CommonUtils.createWebServiceErrorResponse(e);
         } catch (SimpleMoneyTransferApplicationException e) {
-            LOGGER.error("Exception occurred while transferring money for source account number : {}, " +
+            log.error("Exception occurred while transferring money for source account number : {}, " +
                     "destination account number : {} : {}",
                     transferDTO != null ? transferDTO.getSourceAccountNumber() : null,
                     transferDTO != null ? transferDTO.getDestinationAccountNumber() : null,
