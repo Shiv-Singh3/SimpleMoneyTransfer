@@ -100,7 +100,7 @@ Query Param : accountNumber
 Sample Request Body : 
 ````
 {
-	"emailId": "xxx"
+	"emailId": "xxx",
 	"mobileNo": "1111"
 }
 ````
