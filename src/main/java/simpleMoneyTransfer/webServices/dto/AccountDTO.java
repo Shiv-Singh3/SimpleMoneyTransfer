@@ -13,7 +13,7 @@ public class AccountDTO {
 
     private String name;
 
-    private Integer accountNumber;
+    private Long accountNumber;
 
     private Double balance;
 

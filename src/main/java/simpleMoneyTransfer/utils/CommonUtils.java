@@ -23,6 +23,10 @@ public final class CommonUtils {
 
     private static final String SEED = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789";
 
+    private static final int RAND_ACCOUNT_LEN = 16;
+
+    private static final String ACCOUNT_SEED = "123456789";
+
     private static final Random RANDOM = new SecureRandom();
 
     private static final ObjectWriter JSON_WRITER = new ObjectMapper().writer();
@@ -40,17 +44,19 @@ public final class CommonUtils {
         return null;
     }
 
-    //todo implementation
-    public static Integer generateUniqueAccountNumber() {
-        return 0;
+    public static Long generateUniqueAccountNumber() {
+        StringBuilder rand = new StringBuilder(RAND_ACCOUNT_LEN);
+        for (int i = 0; i < RAND_ACCOUNT_LEN; i++) {
+            int index = (int) (RANDOM.nextDouble() * ACCOUNT_SEED.length());
+            rand.append(ACCOUNT_SEED.charAt(index));
+        }
+        return Long.parseLong(rand.toString());
     }
 
-    //todo implementation
     public static Double getDefaultBalance() {
-        return 0d;
+        return 0.00;
     }
 
-    //todo implementation
     public static Currency getDefaultCurrency() {
         return Currency.getInstance("USD");
     }

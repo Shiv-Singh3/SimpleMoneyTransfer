@@ -16,12 +16,9 @@ public class MoneyTransferJsonParser {
 
         try {
             JSONObject jsonObject = new JSONObject(transferJson);
-            Integer sourceAccount = (Integer) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.SOURCE_ACCOUNT_NUM);
-            Integer destinationAccount = (Integer) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.DESTINATION_ACCOUNT_NUM);
-            Double amount = (Double) CommonUtils.getObjectFromJson(
-                    jsonObject, CommonConstants.TRANSFER_AMOUNT);
+            Long sourceAccount = jsonObject.getLong(CommonConstants.SOURCE_ACCOUNT_NUM);
+            Long destinationAccount = jsonObject.getLong(CommonConstants.DESTINATION_ACCOUNT_NUM);
+            Double amount = jsonObject.getDouble(CommonConstants.TRANSFER_AMOUNT);
 
             transferDTO = TransferDTO.builder()
                     .sourceAccountNumber(sourceAccount)

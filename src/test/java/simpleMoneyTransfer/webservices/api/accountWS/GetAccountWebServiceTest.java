@@ -28,12 +28,12 @@ public class GetAccountWebServiceTest {
     @Test
     public void testGetAccountWSSuccessResponse() {
 
-        AccountDTO accountDTO = AccountDTO.builder().name("shiv").accountNumber(1001)
+        AccountDTO accountDTO = AccountDTO.builder().name("shiv").accountNumber(1001L)
                 .balance(100.00).emailId("shivendra.singh3333@gmail.com").build();
 
-        Mockito.when((accountWebServiceManagerImpl).getAccount(Mockito.anyInt())).thenReturn(accountDTO);
+        Mockito.when((accountWebServiceManagerImpl).getAccount(Mockito.anyLong())).thenReturn(accountDTO);
 
-        Response response = getAccountWebService.getAccount(1001, LANGUAGE_CODE);
+        Response response = getAccountWebService.getAccount(1001L, LANGUAGE_CODE);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
@@ -41,9 +41,9 @@ public class GetAccountWebServiceTest {
     public void testGetAccountWSApplicationException() {
 
         Mockito.doThrow(new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR))
-                .when(accountWebServiceManagerImpl).getAccount(Mockito.anyInt());
+                .when(accountWebServiceManagerImpl).getAccount(Mockito.anyLong());
 
-        Response response = getAccountWebService.getAccount(1001, LANGUAGE_CODE);
+        Response response = getAccountWebService.getAccount(1001L, LANGUAGE_CODE);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 }

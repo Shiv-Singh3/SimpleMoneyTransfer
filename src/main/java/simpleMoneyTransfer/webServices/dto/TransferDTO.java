@@ -10,9 +10,9 @@ import lombok.Data;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TransferDTO {
 
-    private Integer sourceAccountNumber;
+    private Long sourceAccountNumber;
 
-    private Integer destinationAccountNumber;
+    private Long destinationAccountNumber;
 
     private Double amount;
 }

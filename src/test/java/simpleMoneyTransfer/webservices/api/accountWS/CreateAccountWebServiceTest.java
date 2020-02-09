@@ -30,7 +30,7 @@ public class CreateAccountWebServiceTest {
     @Test
     public void testCreateAccountWSSuccessResponse() {
 
-        AccountDTO accountDTO = AccountDTO.builder().name("shiv").accountNumber(1001)
+        AccountDTO accountDTO = AccountDTO.builder().name("shiv").accountNumber(1001L)
                 .balance(100.00).emailId("shivendra.singh3333@gmail.com").build();
 
         Mockito.when((createAccountJsonParser).parseAccountJson(Mockito.anyString())).thenReturn(accountDTO);

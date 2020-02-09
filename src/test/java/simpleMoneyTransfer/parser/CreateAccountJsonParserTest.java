@@ -17,14 +17,14 @@ public class CreateAccountJsonParserTest {
     public void testParseAccountJsonSuccess() {
 
         AccountDTO accountDTO = createAccountJsonParser.parseAccountJson(getValidAccountString());
-        assertEquals((Integer)1001, accountDTO.getAccountNumber());
+        assertEquals((Long) 1001L, accountDTO.getAccountNumber());
     }
 
     @Test
     public void testParseAccountJsonNewAccountSuccess() {
 
         AccountDTO accountDTO = createAccountJsonParser.parseAccountJson(getNewAccountString());
-        assertEquals((Integer) 0, accountDTO.getAccountNumber());
+        assertEquals((Double) 0.00, accountDTO.getBalance());
     }
 
     String getValidAccountString() {

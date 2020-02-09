@@ -2,8 +2,6 @@ package simpleMoneyTransfer.manager.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.accessor.impl.DataBaseAccessorImpl;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
@@ -20,7 +18,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
 
     @Override
     public void createAccount(AccountDTO accountDTO) {
-        Integer accountNumber = accountDTO.getAccountNumber();
+        Long accountNumber = accountDTO.getAccountNumber();
         if (!accessor.hasKey(accountNumber)) {
             accessor.save(accountNumber, accountDTO);
         } else {
@@ -31,7 +29,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
 
     @Override
     public void updateAccount(AccountDTO accountDTO) {
-        Integer accountNumber = accountDTO.getAccountNumber();
+        Long accountNumber = accountDTO.getAccountNumber();
         if (accessor.hasKey(accountNumber)) {
             accessor.save(accountNumber, accountDTO);
         } else {
@@ -42,7 +40,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
 
     @Override
     public void updateAccount(UpdateDTO updateDTO) {
-        Integer accountNumber = updateDTO.getAccountNumber();
+        Long accountNumber = updateDTO.getAccountNumber();
         if (accessor.hasKey(accountNumber)) {
             AccountDTO accountDTO = accessor.get(accountNumber);
             String emailId = updateDTO.getEmailId();
@@ -61,7 +59,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
     }
 
     @Override
-    public AccountDTO getAccount(Integer accountNumber) {
+    public AccountDTO getAccount(Long accountNumber) {
         if (accessor.hasKey(accountNumber)) {
             return accessor.get(accountNumber);
         } else {
@@ -71,7 +69,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
     }
 
     @Override
-    public void deleteAccount(Integer accountNumber) {
+    public void deleteAccount(Long accountNumber) {
         if (accessor.hasKey(accountNumber)) {
             accessor.remove(accountNumber);
         } else  {

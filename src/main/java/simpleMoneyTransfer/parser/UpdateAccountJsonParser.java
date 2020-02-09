@@ -15,7 +15,7 @@ public class UpdateAccountJsonParser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateAccountJsonParser.class);
 
-    public UpdateDTO parseUpdateJson(String updateJson, Integer accountNumber) {
+    public UpdateDTO parseUpdateJson(String updateJson, Long accountNumber) {
 
         try {
             JSONObject jsonObject = new JSONObject(updateJson);
