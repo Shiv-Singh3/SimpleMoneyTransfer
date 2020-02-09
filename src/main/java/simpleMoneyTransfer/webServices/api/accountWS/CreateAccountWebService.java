@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import simpleMoneyTransfer.constants.CommonConstants;
+import simpleMoneyTransfer.constants.ValidLanguageCodes;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
@@ -44,7 +45,7 @@ public class CreateAccountWebService {
     public Response createAccount(@ValidCreateAccountJson String inputString,
                   @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                           required = true, defaultValue = "en-US")
-                  @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
+                  @HeaderParam("Accept-Language") @ValidLanguageCode(ValidLanguageCodes.EN_US) String languageCode) {
 
         log.info("Received Request for creating account");
         log.debug("Input Json Body : {}", inputString);
