@@ -1,5 +1,6 @@
 package simpleMoneyTransfer.manager.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +12,8 @@ import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import com.google.inject.Inject;
 import simpleMoneyTransfer.webServices.dto.UpdateDTO;
 
+@Slf4j
 public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountWebServiceManagerImpl.class);
 
     @Inject
     private DataBaseAccessorImpl accessor;
@@ -24,7 +24,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
         if (!accessor.hasKey(accountNumber)) {
             accessor.save(accountNumber, accountDTO);
         } else {
-            LOGGER.error("Account already exists for the account number : {}", accountNumber);
+            log.error("Account already exists for the account number : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_ALREADY_EXISTS_ERR);
         }
     }
@@ -35,7 +35,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
         if (accessor.hasKey(accountNumber)) {
             accessor.save(accountNumber, accountDTO);
         } else {
-            LOGGER.error("Account Not Found for account number : {}", accountNumber);
+            log.error("Account Not Found for account number : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
         }
     }
@@ -55,7 +55,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
             }
             accessor.save(accountNumber, accountDTO);
         } else {
-            LOGGER.error("Account Not Found for account number : {}", accountNumber);
+            log.error("Account Not Found for account number : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
         }
     }
@@ -65,7 +65,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
         if (accessor.hasKey(accountNumber)) {
             return accessor.get(accountNumber);
         } else {
-            LOGGER.error("Account Number Not Found : {}", accountNumber);
+            log.error("Account Number Not Found : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
         }
     }
@@ -75,7 +75,7 @@ public class AccountWebServiceManagerImpl implements AccountWebServiceManager{
         if (accessor.hasKey(accountNumber)) {
             accessor.remove(accountNumber);
         } else  {
-            LOGGER.error("Account not found for account number : {}", accountNumber);
+            log.error("Account not found for account number : {}", accountNumber);
             throw new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR);
         }
     }
