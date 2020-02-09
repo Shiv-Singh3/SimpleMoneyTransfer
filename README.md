@@ -40,9 +40,13 @@ APIs can be tested from this UI.
 Steps :
 1. Click on the API bar which you want to execute.
 
-2. Provide required details like request body or query params.
+2. Click Try it Out Button
 
-3. Click Execute
+3. Provide required details like request body or query params.
+
+4. Click Execute
+
+5. Response Will be captured below the execute button
 
 
 ##API Details
