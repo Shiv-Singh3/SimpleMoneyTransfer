@@ -7,7 +7,6 @@ import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
-
 import java.util.Currency;
 
 public class CreateAccountJsonParser {

@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import simpleMoneyTransfer.constants.Errors;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.parser.CreateAccountJsonParser;
 import simpleMoneyTransfer.webServices.api.accountWS.CreateAccountWebService;
@@ -48,6 +50,16 @@ public class CreateAccountWebServiceTest {
 
         Response response = webService.createAccount(getInvalidTestInput(), LANGUAGE_CODE);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testCreateAccountWSApplicationException() {
+
+        Mockito.doThrow(new SimpleMoneyTransferApplicationException(Errors.INVALID_ACCOUNT_CREATE_JSON_ERR))
+                .when(accountWebServiceManagerImpl).createAccount(Mockito.any());
+
+        Response response = webService.createAccount(getValidTestInput(), LANGUAGE_CODE);
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 
     String getValidTestInput() {

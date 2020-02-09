@@ -3,7 +3,10 @@ package simpleMoneyTransfer.parser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import simpleMoneyTransfer.constants.Errors;
+import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import static org.junit.Assert.assertEquals;
 
@@ -17,7 +20,7 @@ public class CreateAccountJsonParserTest {
     public void testParseAccountJsonSuccess() {
 
         AccountDTO accountDTO = createAccountJsonParser.parseAccountJson(getValidAccountString());
-        assertEquals((Long) 1001L, accountDTO.getAccountNumber());
+        assertEquals((Long) 1002L, accountDTO.getAccountNumber());
     }
 
     @Test
@@ -29,10 +32,12 @@ public class CreateAccountJsonParserTest {
 
     String getValidAccountString() {
         return "{\n" +
-                "\t\"name\": \"shiv\",\n" +
-                "\t\"accountNumber\": 1001,\n" +
+                "\t\"name\": \"raj\",\n" +
+                "\t\"accountNumber\": 1002,\n" +
                 "\t\"balance\": 100.00,\n" +
-                "\t\"emailId\": \"shivendra.singh3333@gmail.com\"\n" +
+                "\t\"currency\": \"INR\",\n" +
+                "\t\"emailId\": \"xyz.singh3333@gmail.com\",\n" +
+                "\t\"mobileNo\": \"1234533\"\n" +
                 "}";
     }
 

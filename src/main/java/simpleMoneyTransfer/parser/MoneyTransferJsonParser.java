@@ -5,7 +5,6 @@ import org.codehaus.jettison.json.JSONObject;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
-import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 
 public class MoneyTransferJsonParser {

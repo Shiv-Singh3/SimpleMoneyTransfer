@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
