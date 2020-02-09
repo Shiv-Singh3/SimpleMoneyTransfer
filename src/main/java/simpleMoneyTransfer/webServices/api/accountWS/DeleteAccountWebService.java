@@ -2,6 +2,7 @@ package simpleMoneyTransfer.webServices.api.accountWS;
 
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
@@ -17,9 +18,8 @@ import javax.ws.rs.core.Response;
 
 @Path("/account")
 @Api(value = "Account Web Service")
+@Slf4j
 public class DeleteAccountWebService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteAccountWebService.class);
 
     @Inject
     private AccountWebServiceManagerImpl accountWebServiceManager;
@@ -47,10 +47,10 @@ public class DeleteAccountWebService {
             @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
         try {
             accountWebServiceManager.deleteAccount(accountNumber);
-            LOGGER.info("Successfully Deleted Account for account number : {}", accountNumber);
+            log.info("Successfully Deleted Account for account number : {}", accountNumber);
             return Response.status(Response.Status.CREATED).build();
         } catch (SimpleMoneyTransferApplicationException e) {
-            LOGGER.error("Unable to delete account for account number : {}, Application Exception : {}",
+            log.error("Unable to delete account for account number : {}, Application Exception : {}",
                     accountNumber, e.toString());
             return CommonUtils.createWebServiceErrorResponse(e);
         }

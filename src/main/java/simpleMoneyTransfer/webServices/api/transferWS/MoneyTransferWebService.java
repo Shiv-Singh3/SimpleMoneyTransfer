@@ -13,13 +13,17 @@ import simpleMoneyTransfer.parser.MoneyTransferJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/transfer")
 @Api(value = "Transfer Web Services")
+@Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
 public class MoneyTransferWebService {
 

@@ -1,12 +1,11 @@
 package simpleMoneyTransfer.webServices.api.accountWS;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
@@ -19,10 +18,9 @@ import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 
 @Path("/account")
 @Api(value = "Account Web Service")
+@Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
 public class CreateAccountWebService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateAccountWebService.class);
 
     @Inject
     private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
@@ -57,7 +55,7 @@ public class CreateAccountWebService {
             log.info("Account created successfully for account number : {}", accountDTO.getAccountNumber());
             return Response.status(Response.Status.CREATED).build();
         } catch (SimpleMoneyTransferValidationException e) {
-            log.error("Invalid Request, Input Json : {}", inputString);
+            log.error("Invalid Request, Input Json : {}", e.toString());
             return CommonUtils.createWebServiceErrorResponse(e);
         } catch (SimpleMoneyTransferApplicationException e) {
             log.error("Unable Create Account, Application exception : {}", e.toString());

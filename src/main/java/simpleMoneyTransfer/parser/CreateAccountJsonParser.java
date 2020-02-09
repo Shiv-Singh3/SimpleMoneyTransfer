@@ -12,7 +12,7 @@ import java.util.Currency;
 
 public class CreateAccountJsonParser {
 
-    public AccountDTO parseAccountJson(String accountJson) {
+    public AccountDTO parseAccountJson(String accountJson) throws SimpleMoneyTransferValidationException {
 
         AccountDTO accountDTO;
         try {

@@ -1,5 +1,6 @@
 package simpleMoneyTransfer.webServices.validation;
 
+import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
@@ -30,9 +31,8 @@ public @interface ValidCreateAccountJson {
     Class<? extends Payload>[] payload() default {};
 }
 
+@Slf4j
 class JsonValidator implements ConstraintValidator<ValidCreateAccountJson, Object> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonValidator.class);
 
     @Override
     public void initialize(ValidCreateAccountJson validJson) {
@@ -50,16 +50,16 @@ class JsonValidator implements ConstraintValidator<ValidCreateAccountJson, Objec
             Currency currency = (Currency) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.CURRENCY);
 
             if (name == null || name.isEmpty()) {
-                LOGGER.error("Cannot create Account with empty Name");
+                log.error("Cannot create Account with empty Name");
                 return false;
             }
 
             if ((accountNumber == null || accountNumber == 0) && (balance != null || currency != null)) {
-                LOGGER.error("Cannot Create A Balance/Currency Account with empty Account Number");
+                log.error("Cannot Create A Balance/Currency Account with empty Account Number");
                 return false;
             }
         } catch (JSONException e) {
-            LOGGER.error("Exception occurred while validating Json");
+            log.error("Exception occurred while validating Json");
             return false;
         }
         return true;

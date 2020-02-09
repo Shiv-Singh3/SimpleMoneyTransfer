@@ -1,5 +1,6 @@
 package simpleMoneyTransfer.parser;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -11,9 +12,8 @@ import simpleMoneyTransfer.exceptions.SimpleMoneyTransferValidationException;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.UpdateDTO;
 
+@Slf4j
 public class UpdateAccountJsonParser {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateAccountJsonParser.class);
 
     public UpdateDTO parseUpdateJson(String updateJson, Long accountNumber) {
 
@@ -24,12 +24,12 @@ public class UpdateAccountJsonParser {
             String mobileNo = (String) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.MOBILE_NO);
 
             if (StringUtils.isEmpty(emailId) && StringUtils.isEmpty(mobileNo)) {
-                LOGGER.error("Invalid Request Json : {}, mobile and email both cannot be null", updateJson);
+                log.error("Invalid Request Json : {}, mobile and email both cannot be null", updateJson);
                 throw new SimpleMoneyTransferValidationException(Errors.INVALID_ACCOUNT_UPDATE_JSON_ERR);
             }
             return UpdateDTO.builder().accountNumber(accountNumber).emailId(emailId).mobileNo(mobileNo).build();
         } catch (JSONException e) {
-            LOGGER.error("Exception occurred while parsing update account request json for account number : {} : {}",
+            log.error("Exception occurred while parsing update account request json for account number : {} : {}",
                     accountNumber, e.toString());
             throw new SimpleMoneyTransferValidationException(Errors.INVALID_ACCOUNT_UPDATE_JSON_ERR,
                     "Exception occurred while parsing json request body", e);
