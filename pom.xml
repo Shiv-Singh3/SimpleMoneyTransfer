@@ -134,7 +134,7 @@
   </dependencies>
 
   <build>
-    <finalName>fatjar-${project.version}</finalName>
+    <finalName>simpleMoneyTransfer-${project.version}</finalName>
     <plugins>
 
       <plugin>
@@ -237,7 +237,6 @@
           </execution>
         </executions>
       </plugin>
-      
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

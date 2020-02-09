@@ -3,8 +3,6 @@ package simpleMoneyTransfer.webServices.api.transferWS;
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.ValidLanguageCodes;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
@@ -14,7 +12,6 @@ import simpleMoneyTransfer.parser.MoneyTransferJsonParser;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;

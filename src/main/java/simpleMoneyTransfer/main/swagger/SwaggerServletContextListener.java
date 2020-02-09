@@ -6,7 +6,6 @@ import io.swagger.config.ScannerFactory;
 import io.swagger.jaxrs.config.BeanConfig;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.ConfigConstants;
-import simpleMoneyTransfer.webServices.api.accountWS.CreateAccountWebService;
 
 final class SwaggerServletContextListener implements ServletContextListener {
 

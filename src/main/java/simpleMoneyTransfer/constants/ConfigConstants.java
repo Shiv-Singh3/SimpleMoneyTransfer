@@ -10,8 +10,6 @@ public class ConfigConstants {
     //API ORIGIN FILTER CONSTANTS
     public static final String HEADER_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
     public static final String HEADER_ALLOW_ORIGIN_VALUE = "*";
-    public static final String HEADER_ALLOW_HEADERS = "Access-Control-Allow-Headers";
-    public static final String HEADER_ALLOW_HEADERS_VALUE = "Content-Type";
     public static final String HEADER_ALLOW_METHODS = "Access-Control-Allow-Methods";
     public static final String HEADER_ALLOW_METHODS_VALUE = "GET, POST, DELETE, PUT";
 
@@ -25,7 +23,7 @@ public class ConfigConstants {
     public static final String BEAN_CONFIG_PROTOCOL = "http";
     public static final String BEAN_CONFIG_HOST = "localhost";
     public static final String BEAN_CONFIG_PORT = "8080";
-    public static final String BEAN_CONFIG_BASE_PATH = "/api";
+    public static final String BEAN_CONFIG_BASE_PATH = "/simpleMoneyTransfer";
     public static final String BEAN_CONFIG_TITLE = "Simple Money Transfer";
     public static final String BEAN_CONFIG_DESCRIPTION = "RestFul APIs for transferring money among accounts";
     public static final boolean BEAN_CONFIG_SET_SCAN = true;

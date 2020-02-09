@@ -3,10 +3,7 @@ package simpleMoneyTransfer.webServices.api.accountWS;
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
-import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.constants.ValidLanguageCodes;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
@@ -14,7 +11,6 @@ import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.response.GetAccountResponse;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -43,7 +39,7 @@ public class GetAccountWebService {
             @ApiResponse(code = CommonConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
                     message = "Internal Server Error", response = CreateAccountWebService.class)
     })
-    public Response getAccount(@ApiParam(name = "Account Number", value = "Account Number", required = true)
+    public Response getAccount(@ApiParam(name = "accountNumber", value = "Account Number", required = true)
                                @QueryParam("accountNumber") Long accountNumber,
                                @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                                        required = true, defaultValue = "en-US")

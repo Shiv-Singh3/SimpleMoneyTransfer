@@ -3,7 +3,6 @@ package simpleMoneyTransfer.webServices.validation;
 import lombok.extern.slf4j.Slf4j;
 import simpleMoneyTransfer.constants.Errors;
 import simpleMoneyTransfer.constants.ValidLanguageCodes;
-
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

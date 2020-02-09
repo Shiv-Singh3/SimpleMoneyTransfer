@@ -3,8 +3,6 @@ package simpleMoneyTransfer.webServices.api.accountWS;
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
 import simpleMoneyTransfer.constants.ValidLanguageCodes;
 import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
@@ -41,7 +39,7 @@ public class DeleteAccountWebService {
                     message = "Internal Server Error", response = DeleteAccountWebService.class)
     })
     public Response deleteAccount(
-            @ApiParam(name = "Account Number", value = "Account Number for account to be deleted", required = true)
+            @ApiParam(name = "accountNumber", value = "Account Number for account to be deleted", required = true)
             @QueryParam("accountNumber") Long accountNumber,
             @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                     required = true, defaultValue = "en-US")

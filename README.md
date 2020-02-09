@@ -26,6 +26,10 @@ mvn clean verify
 
 java -jar target/simpleMoneyTransfer-1.0-SNAPSHOT.jar
 
+or
+
+simply run main method under main package of simpleMoneyTransfer
+
 ## Using the Application
 
 Navigate to : localhost:8080
