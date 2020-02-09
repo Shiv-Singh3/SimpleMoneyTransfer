@@ -263,7 +263,7 @@
     <jetty.version>9.3.14.v20161028</jetty.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <swagger.version>1.5.10</swagger.version>
+    <swagger.version>1.6.0</swagger.version>
     <slf4j.version>1.7.21</slf4j.version>
     <logback.version>1.1.8</logback.version>
     <guice.version>4.1.0</guice.version>
