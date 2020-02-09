@@ -43,7 +43,7 @@ public class GetAccountWebService {
                     message = "Internal Server Error", response = CreateAccountWebService.class)
     })
     public Response getAccount(@ApiParam(name = "Account Number", value = "Account Number", required = true)
-                               @QueryParam("accountNumber") Integer accountNumber,
+                               @QueryParam("accountNumber") Long accountNumber,
                                @ApiParam(name = "Accept-Language", value = "The value to be passed as header parameter",
                                        required = true, defaultValue = "en-US")
                                @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {

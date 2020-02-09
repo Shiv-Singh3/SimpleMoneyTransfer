@@ -29,9 +29,9 @@ public class DeleteAccountWebServiceTest {
     @Test
     public void testDeleteAccountWSSuccessResponse() {
 
-        Mockito.doNothing().when(accountWebServiceManager).deleteAccount(Mockito.anyInt());
+        Mockito.doNothing().when(accountWebServiceManager).deleteAccount(Mockito.anyLong());
 
-        Response response = deleteAccountWebService.deleteAccount(1001, LANGUAGE_CODE);
+        Response response = deleteAccountWebService.deleteAccount(1001L, LANGUAGE_CODE);
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
@@ -39,9 +39,9 @@ public class DeleteAccountWebServiceTest {
     public void testDeleteAccountWSApplicationException() {
 
         Mockito.doThrow(new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR))
-                .when(accountWebServiceManager).deleteAccount(Mockito.anyInt());
+                .when(accountWebServiceManager).deleteAccount(Mockito.anyLong());
 
-        Response response = deleteAccountWebService.deleteAccount(1001, LANGUAGE_CODE);
+        Response response = deleteAccountWebService.deleteAccount(1001L, LANGUAGE_CODE);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 }

@@ -6,25 +6,25 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DataBaseAccessorImpl implements DataBaseAccessor{
 
-    private static ConcurrentHashMap<Integer, AccountDTO> db = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Long, AccountDTO> db = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Integer key, AccountDTO value) {
+    public void save(Long key, AccountDTO value) {
         db.put(key, value);
     }
 
     @Override
-    public AccountDTO get(Integer key) {
+    public AccountDTO get(Long key) {
         return db.get(key);
     }
 
     @Override
-    public void remove(Integer key) {
+    public void remove(Long key) {
         db.remove(key);
     }
 
     @Override
-    public boolean hasKey(Integer key) {
+    public boolean hasKey(Long key) {
         return db.containsKey(key);
     }
 }

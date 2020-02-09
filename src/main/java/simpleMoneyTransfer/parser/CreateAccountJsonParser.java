@@ -18,14 +18,40 @@ public class CreateAccountJsonParser {
         try {
             JSONObject jsonObject = new JSONObject(accountJson);
 
-            String name = (String) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.NAME);
-            Integer accountNumber = (Integer) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.ACCOUNT_NUMBER);
-            Double balance = (Double) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.BALANCE);
-            Currency currency = (Currency) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.CURRENCY);
-            String emailId = (String) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.EMAIL_ID);
-            String mobileNo = (String) CommonUtils.getObjectFromJson(jsonObject, CommonConstants.MOBILE_NO);
+            String name = null;
+            Long accountNumber = null;
+            Double balance = null;
+            String currencyString;
+            Currency currency = null;
+            String emailId = null;
+            String mobileNo = null;
 
-            accountNumber = (accountNumber == null) ? CommonUtils.generateUniqueAccountNumber() : accountNumber;
+            if (jsonObject.has(CommonConstants.NAME)) {
+                name = jsonObject.getString(CommonConstants.NAME);
+            }
+
+            if (jsonObject.has(CommonConstants.ACCOUNT_NUMBER)) {
+                accountNumber = jsonObject.getLong(CommonConstants.ACCOUNT_NUMBER);
+            }
+
+            if (jsonObject.has(CommonConstants.BALANCE)) {
+                balance = jsonObject.getDouble(CommonConstants.BALANCE);
+            }
+
+            if (jsonObject.has(CommonConstants.CURRENCY)) {
+                currencyString = jsonObject.getString(CommonConstants.CURRENCY);
+                currency = Currency.getInstance(currencyString);
+            }
+
+            if (jsonObject.has(CommonConstants.EMAIL_ID)) {
+                emailId = jsonObject.getString(CommonConstants.EMAIL_ID);
+            }
+
+            if (jsonObject.has(CommonConstants.MOBILE_NO)) {
+                mobileNo = jsonObject.getString(CommonConstants.MOBILE_NO);
+            }
+
+            accountNumber = accountNumber == null ? CommonUtils.generateUniqueAccountNumber() : accountNumber;
             balance = (balance == null) ? CommonUtils.getDefaultBalance() : balance;
             currency = (currency == null) ? CommonUtils.getDefaultCurrency() : currency;
 

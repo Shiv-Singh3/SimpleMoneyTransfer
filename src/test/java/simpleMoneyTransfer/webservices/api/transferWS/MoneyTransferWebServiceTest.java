@@ -36,7 +36,7 @@ public class MoneyTransferWebServiceTest {
     public void testMoneyTransferWSSuccessResponse() {
 
         TransferDTO transferDTO = TransferDTO.builder().amount(100.00)
-                .sourceAccountNumber(1001).destinationAccountNumber(1002).build();
+                .sourceAccountNumber(1001L).destinationAccountNumber(1002L).build();
 
         Mockito.when((moneyTransferJsonParser).parseTransferJson(Mockito.anyString())).thenReturn(transferDTO);
         Mockito.doNothing().when(transferWebServiceManagerImpl).transfer(Mockito.any());
@@ -49,7 +49,7 @@ public class MoneyTransferWebServiceTest {
     public void testMoneyTransferWSApplicationException() {
 
         TransferDTO transferDTO = TransferDTO.builder().amount(100.00)
-                .sourceAccountNumber(1001).destinationAccountNumber(1002).build();
+                .sourceAccountNumber(1001L).destinationAccountNumber(1002L).build();
 
         Mockito.when((moneyTransferJsonParser).parseTransferJson(Mockito.anyString())).thenReturn(transferDTO);
         Mockito.doThrow(new SimpleMoneyTransferApplicationException(Errors.INVALID_TRANSFER_REQUEST))

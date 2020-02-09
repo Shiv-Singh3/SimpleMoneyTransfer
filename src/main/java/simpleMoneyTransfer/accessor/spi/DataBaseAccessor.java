@@ -4,11 +4,11 @@ import simpleMoneyTransfer.webServices.dto.AccountDTO;
 
 public interface DataBaseAccessor {
 
-    void save(Integer key, AccountDTO value);
+    void save(Long key, AccountDTO value);
 
-    AccountDTO get(Integer key);
+    AccountDTO get(Long key);
 
-    void remove(Integer key);
+    void remove(Long key);
 
-    boolean hasKey(Integer key);
+    boolean hasKey(Long key);
 }

@@ -11,7 +11,7 @@ public interface AccountWebServiceManager {
 
     void updateAccount(UpdateDTO updateDTO);
 
-    AccountDTO getAccount(Integer accountNumber);
+    AccountDTO getAccount(Long accountNumber);
 
-    void deleteAccount(Integer accountNumber);
+    void deleteAccount(Long accountNumber);
 }

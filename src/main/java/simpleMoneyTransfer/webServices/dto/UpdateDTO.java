@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateDTO {
 
-    private Integer accountNumber;
+    private Long accountNumber;
 
     private String emailId;
 

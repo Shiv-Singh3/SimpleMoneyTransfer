@@ -1,6 +1,7 @@
 package simpleMoneyTransfer.manager.impl;
 
 import com.google.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,8 @@ import simpleMoneyTransfer.manager.spi.TransferWebServiceManager;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
 import simpleMoneyTransfer.webServices.dto.TransferDTO;
 
+@Slf4j
 public class TransferWebServiceManagerImpl implements TransferWebServiceManager {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TransferWebServiceManagerImpl.class);
 
     @Inject
     private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
@@ -22,14 +22,14 @@ public class TransferWebServiceManagerImpl implements TransferWebServiceManager 
 
     @Override
     public void transfer(TransferDTO transferDTO) {
-        Integer sourceAccountNum = transferDTO.getSourceAccountNumber();
-        Integer destAccountNum = transferDTO.getDestinationAccountNumber();
+        Long sourceAccountNum = transferDTO.getSourceAccountNumber();
+        Long destAccountNum = transferDTO.getDestinationAccountNumber();
         Double amount = transferDTO.getAmount();
 
         AccountDTO sourceAccount = accountWebServiceManagerImpl.getAccount(sourceAccountNum);
-        LOGGER.info("Source Account fetched for account number : {}", sourceAccount.getAccountNumber());
+        log.info("Source Account fetched for account number : {}", sourceAccount.getAccountNumber());
         AccountDTO destAccount = accountWebServiceManagerImpl.getAccount(destAccountNum);
-        LOGGER.info("Destination Account fetched for account number : {}", destAccount.getAccountNumber());
+        log.info("Destination Account fetched for account number : {}", destAccount.getAccountNumber());
 
         if (isValidTransaction(sourceAccount, destAccount, amount)) {
             sourceAccount = moneyTransferImpl.withdraw(sourceAccount, amount);
@@ -37,7 +37,7 @@ public class TransferWebServiceManagerImpl implements TransferWebServiceManager 
             accountWebServiceManagerImpl.updateAccount(sourceAccount);
             accountWebServiceManagerImpl.updateAccount(destAccount);
         } else {
-            LOGGER.error("Unable to initiate transfer, either low balance or currency mismatch. " +
+            log.error("Unable to initiate transfer, either low balance or currency mismatch. " +
                     "Source Account Number : {}, Source Account Currency : {}, " +
                     "Dest Account Number : {}, Dest Account Currency, Source Account Balance : {}, Amount : {}",
                     sourceAccount.getAccountNumber(), sourceAccount.getCurrency(),

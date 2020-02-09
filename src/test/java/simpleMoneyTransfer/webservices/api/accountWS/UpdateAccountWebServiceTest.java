@@ -34,13 +34,13 @@ public class UpdateAccountWebServiceTest {
     @Test
     public void testUpdateAccountWSSuccessResponse() {
 
-        UpdateDTO updateDTO = UpdateDTO.builder().accountNumber(1001).emailId("xxx").mobileNo("1234").build();
+        UpdateDTO updateDTO = UpdateDTO.builder().accountNumber(1001L).emailId("xxx").mobileNo("1234").build();
 
-        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyInt())).thenReturn(updateDTO);
+        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyLong())).thenReturn(updateDTO);
         Mockito.doNothing().when(accountWebServiceManager).updateAccount(updateDTO);
 
         Response response = updateAccountWebService
-                .updateAccount(1001, LANGUAGE_CODE, getValidUpdateJson());
+                .updateAccount(1001L, LANGUAGE_CODE, getValidUpdateJson());
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
@@ -48,32 +48,32 @@ public class UpdateAccountWebServiceTest {
     public void testUpdateAccountWSValidationException() {
 
         Mockito.when((updateAccountJsonParser)
-                .parseUpdateJson(Mockito.any(), Mockito.anyInt())).thenCallRealMethod();
+                .parseUpdateJson(Mockito.any(), Mockito.anyLong())).thenCallRealMethod();
 
         Response response = updateAccountWebService
-                .updateAccount(1001, LANGUAGE_CODE, getInvalidUpdateJson());
+                .updateAccount(1001L, LANGUAGE_CODE, getInvalidUpdateJson());
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void testUpdateAccountWSWithEmptyBody() {
 
-        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyInt())).thenCallRealMethod();
+        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyLong())).thenCallRealMethod();
 
-        Response response = updateAccountWebService.updateAccount(1001, LANGUAGE_CODE, "");
+        Response response = updateAccountWebService.updateAccount(1001L, LANGUAGE_CODE, "");
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void testUpdateAccountWSApplicationException() {
 
-        UpdateDTO updateDTO = UpdateDTO.builder().accountNumber(1001).emailId("xxx").mobileNo("1234").build();
+        UpdateDTO updateDTO = UpdateDTO.builder().accountNumber(1001L).emailId("xxx").mobileNo("1234").build();
 
-        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyInt())).thenReturn(updateDTO);
+        Mockito.when((updateAccountJsonParser).parseUpdateJson(Mockito.any(), Mockito.anyLong())).thenReturn(updateDTO);
         Mockito.doThrow(new SimpleMoneyTransferApplicationException(Errors.ACCOUNT_NUMBER_NOT_FOUND_ERR))
                 .when(accountWebServiceManager).updateAccount(updateDTO);
 
-        Response response = updateAccountWebService.updateAccount(1001, LANGUAGE_CODE, getValidUpdateJson());
+        Response response = updateAccountWebService.updateAccount(1001L, LANGUAGE_CODE, getValidUpdateJson());
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 

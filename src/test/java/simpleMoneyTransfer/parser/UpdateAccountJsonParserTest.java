@@ -17,8 +17,8 @@ public class UpdateAccountJsonParserTest {
     @Test
     public void testUpdateAccountJsonParserSuccess() {
 
-        UpdateDTO updateDTO = updateAccountJsonParser.parseUpdateJson(getValidUpdateAccountString(), 1001);
-        assertEquals((Integer)1001, updateDTO.getAccountNumber());
+        UpdateDTO updateDTO = updateAccountJsonParser.parseUpdateJson(getValidUpdateAccountString(), 1001L);
+        assertEquals((Long) 1001L, updateDTO.getAccountNumber());
     }
 
     String getValidUpdateAccountString() {
