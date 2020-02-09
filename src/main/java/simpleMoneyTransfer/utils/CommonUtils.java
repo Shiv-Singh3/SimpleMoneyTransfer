@@ -3,6 +3,7 @@ package simpleMoneyTransfer.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,9 +16,8 @@ import java.security.SecureRandom;
 import java.util.Currency;
 import java.util.Random;
 
+@Slf4j
 public final class CommonUtils {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
 
     private static final int RAND_STRING_LEN = 16;
 
@@ -81,7 +81,7 @@ public final class CommonUtils {
         try {
             response = JSON_WRITER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            LOGGER.error(JSON_ERROR, e);
+            log.error(JSON_ERROR, e);
         }
         return response;
     }

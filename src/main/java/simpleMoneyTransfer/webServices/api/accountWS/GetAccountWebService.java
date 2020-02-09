@@ -2,6 +2,7 @@ package simpleMoneyTransfer.webServices.api.accountWS;
 
 import com.google.inject.Inject;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simpleMoneyTransfer.constants.CommonConstants;
@@ -10,25 +11,24 @@ import simpleMoneyTransfer.exceptions.SimpleMoneyTransferApplicationException;
 import simpleMoneyTransfer.manager.impl.AccountWebServiceManagerImpl;
 import simpleMoneyTransfer.utils.CommonUtils;
 import simpleMoneyTransfer.webServices.dto.AccountDTO;
+import simpleMoneyTransfer.webServices.response.GetAccountResponse;
 import simpleMoneyTransfer.webServices.validation.ValidLanguageCode;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/account")
 @Api(value = "Account Web Service")
+@Slf4j
 public class GetAccountWebService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetAccountWebService.class);
 
     @Inject
     private AccountWebServiceManagerImpl accountWebServiceManagerImpl;
 
     @GET
     @Path("/getAccount")
+    @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Fecthes Account for given account number", response = CreateAccountWebService.class)
     @ApiResponses(value = {
             @ApiResponse(code = CommonConstants.HTTP_STATUS_OK,
@@ -48,17 +48,23 @@ public class GetAccountWebService {
                                        required = true, defaultValue = "en-US")
                                @HeaderParam("Accept-Language") @ValidLanguageCode String languageCode) {
 
-        LOGGER.info("Received request for fetching account for account number : {}", accountNumber);
+        log.info("Received request for fetching account for account number : {}", accountNumber);
         AccountDTO accountDTO;
 
         try {
             accountDTO = accountWebServiceManagerImpl.getAccount(accountNumber);
-            LOGGER.info("Successfully fetched account for account number : {}", accountNumber);
-            return Response.status(Response.Status.OK).entity(accountDTO.toString()).build();
+            log.info("Successfully fetched account for account number : {} : {}", accountNumber, accountDTO.toString());
+            return getWebResponseForGetAccount(accountDTO);
         } catch (SimpleMoneyTransferApplicationException e) {
-            LOGGER.error("Unable to fetch account for account number : {}, Application exception : {}",
+            log.error("Unable to fetch account for account number : {}, Application exception : {}",
                     accountNumber, e.toString());
             return CommonUtils.createWebServiceErrorResponse(e);
         }
+    }
+
+    public Response getWebResponseForGetAccount(AccountDTO accountDTO) {
+        GetAccountResponse response = new GetAccountResponse(accountDTO);
+        String responseString = CommonUtils.serializeToJsonStringSilently(response);
+        return Response.status(Response.Status.OK).entity(responseString).build();
     }
 }
